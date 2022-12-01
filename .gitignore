@@ -105,3 +105,6 @@ dist
 
 # Templates
 template/
+
+# asdf
+.tool-versions
