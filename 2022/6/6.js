@@ -6,34 +6,38 @@ const input = fs.readFileSync(path.resolve(__dirname, 'input.txt'))
     .split('\n')[0];
 
 const calculateStartPosition = function(differenceSize){
-    let trailing = [];
-    let found = true;
+    let trailing = {
+        str: [],
+        greaterThanTwo: [],
+    };
     for(let i=0;i<differenceSize;i++){
-        found = found && !trailing.includes(input[i]);
-        trailing.push(input[i]);
+        if(trailing.hasOwnProperty(input[i])){
+            trailing[input[i]]++;
+            trailing.greaterThanTwo.push(input[i]);
+        } else {
+            trailing[input[i]] = 1;
+        }
+        trailing.str.push(input[i]);
     }
-    if(found){
+    if(trailing.greaterThanTwo.length === 0){
         return differenceSize;
     }
     for(let i=differenceSize;i<input.length;i++){
-        trailing.shift();
-        trailing.push(input[i]);
-        let duplicate = false;
-        // TODO: yikes, n^2
-        // we can try being clever later,
-        // if being stupid doesn't work
-        for(let j=0;j<trailing.length;j++){
-            if(duplicate){
-                break;
-            }
-            for(let k=0;k<trailing.length;k++){
-                if(j !== k && trailing[j] === trailing[k]){
-                    duplicate = true;
-                    break;
-                }
-            }
+        let last = trailing.str.shift();
+        trailing[last]--;
+        if(trailing[last] < 2 && trailing.greaterThanTwo.includes(last)){
+            trailing.greaterThanTwo.splice(trailing.greaterThanTwo.indexOf(last),1)
         }
-        if(!duplicate){
+        if(trailing.hasOwnProperty(input[i])){
+            trailing[input[i]]++;
+            if(trailing[input[i]] > 1 && trailing.greaterThanTwo.indexOf(input[i]) === -1){
+                trailing.greaterThanTwo.push(input[i]);
+            }
+        } else {
+            trailing[input[i]] = 1;
+        }
+        trailing.str.push(input[i]);
+        if(trailing.greaterThanTwo.length === 0){
             return i+1;
         }
     }
