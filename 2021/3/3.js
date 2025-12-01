@@ -1,9 +1,5 @@
-const fs = require('fs');
-const path = require("path");
-
-const input = fs.readFileSync(path.resolve(__dirname, '3.txt'))
-    .toString()
-    .split('\n');
+import { loadInput } from "../../helpers/loadInput.js";
+const input = loadInput(import.meta.url);
 
 const calculatePowerConsumption = function(){
     let bitCount = (new Array(input[0].length)).fill(0).map(()=>[0,0]);

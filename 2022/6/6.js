@@ -1,9 +1,5 @@
-const fs = require('fs');
-const path = require("path");
-
-const input = fs.readFileSync(path.resolve(__dirname, 'input.txt'))
-    .toString()
-    .split('\n')[0];
+import { loadInput } from "../../helpers/loadInput.js";
+const input = loadInput(import.meta.url)[0];
 
 const calculateStartPosition = function(differenceSize){
     let trailing = {

@@ -1,9 +1,5 @@
-const fs = require('fs');
-const path = require("path");
-
-const input = fs.readFileSync(path.resolve(__dirname, 'input.txt'))
-    .toString()
-    .split('\n');
+import { loadInput } from "../../helpers/loadInput.js";
+const input = loadInput(import.meta.url);
 
 const order = input[0].split('');
 const map = {};
